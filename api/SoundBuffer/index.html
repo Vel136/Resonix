@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">SoundBuffer | Resonix</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://vel136.github.io/Resonix/api/SoundBuffer"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="SoundBuffer | Resonix"><meta data-rh="true" name="description" content="Persistence and lifecycle layer for active sound emissions.
+
+The buffer solves a fundamental problem: any polling consumer calls
+`:QueryPosition()` at discrete intervals, but sound events happen at
+arbitrary moments in continuous time. An instantaneous event like a
+gunshot that fires at `t = 0.05` must still be detectable when a query
+runs at `t = 0.1`, `t = 0.2`, and potentially `t = 0.3`.
+
+The solution is a relevance window — each emission persists in the buffer
+for longer than its physical duration:
+
+```
+ExpiresAt = EmittedAt + Duration + DECAY_WINDOW (0.6s)
+```
+
+A gunshot with a 0.05s physical duration stays in the buffer for 0.65s
+total, ensuring it is visible to at least six consecutive 0.1s query ticks.
+
+SoundBuffer is managed internally by [Resonix] and does not need to be
+constructed directly."><meta data-rh="true" property="og:description" content="Persistence and lifecycle layer for active sound emissions.
+
+The buffer solves a fundamental problem: any polling consumer calls
+`:QueryPosition()` at discrete intervals, but sound events happen at
+arbitrary moments in continuous time. An instantaneous event like a
+gunshot that fires at `t = 0.05` must still be detectable when a query
+runs at `t = 0.1`, `t = 0.2`, and potentially `t = 0.3`.
+
+The solution is a relevance window — each emission persists in the buffer
+for longer than its physical duration:
+
+```
+ExpiresAt = EmittedAt + Duration + DECAY_WINDOW (0.6s)
+```
+
+A gunshot with a 0.05s physical duration stays in the buffer for 0.65s
+total, ensuring it is visible to at least six consecutive 0.1s query ticks.
+
+SoundBuffer is managed internally by [Resonix] and does not need to be
+constructed directly."><link data-rh="true" rel="canonical" href="https://vel136.github.io/Resonix/api/SoundBuffer"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Resonix/api/SoundBuffer" hreflang="en"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Resonix/api/SoundBuffer" hreflang="x-default"><link rel="stylesheet" href="/Resonix/assets/css/styles.5cbed574.css">
+<script src="/Resonix/assets/js/runtime~main.8db52554.js" defer="defer"></script>
+<script src="/Resonix/assets/js/main.2bdf5a4f.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Resonix/"><b class="navbar__title text--truncate">Resonix</b></a><a class="navbar__item navbar__link" href="/Resonix/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Resonix/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/Vel136/Resonix" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/Resonix/api/Resonix">Core</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Resonix/api/Resonix">​Resonix</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Resonix/api/SoundPropagator">​Sound​Propagator</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/Resonix/api/SoundBuffer">​Sound​Buffer</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Resonix/api/ResonixNet">Network</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Resonix/api/SoundTypes">Types</a></div></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Sound</span><span style="display:inline-block">Buffer</span></h1><div class="luaClassTags_EipM"></div><div>
+<p>Persistence and lifecycle layer for active sound emissions.</p>
+<p>
+  The buffer solves a fundamental problem: any polling consumer calls
+  <code>:QueryPosition()</code> at discrete intervals, but sound events happen at
+  arbitrary moments in continuous time. An instantaneous event like a
+  gunshot that fires at <code>t = 0.05</code> must still be detectable when a query
+  runs at <code>t = 0.1</code>, <code>t = 0.2</code>, and potentially <code>t = 0.3</code>.
+</p>
+<p>
+  The solution is a relevance window — each emission persists in the buffer
+  for longer than its physical duration:
+</p>
+<pre><code>ExpiresAt = EmittedAt + Duration + DECAY_WINDOW (0.6s)
+</code></pre>
+<p>
+  A gunshot with a 0.05s physical duration stays in the buffer for 0.65s
+  total, ensuring it is visible to at least six consecutive 0.1s query ticks.
+</p>
+<p>
+  SoundBuffer is managed internally by <a href="/Resonix/api/Resonix">Resonix</a> and does not need to be
+  constructed directly.
+</p>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundBuffer.lua#L37"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundBuffer<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundBuffer">SoundBuffer</a></code></div><div>
+<p>Creates a new SoundBuffer and starts its background prune task.</p>
+<p>
+  The prune task runs every 0.5 seconds and removes expired emissions from
+  the buffer and expiry queue. It is cancelled on <code>:Destroy()</code>.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Store"><code style="text-decoration:none">Store</code><a href="#Store" class="hash-link" aria-label="Direct link to Store" title="Direct link to Store">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundBuffer.lua#L50"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundBuffer<!-- -->:</code><code class="green_DgR4">Store</code><code>(</code><div class="inset_uKQm"><div><code>emission<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>A fully constructed emission.</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Stores an emission in the buffer.</p>
+<p>
+  The emission must already have <code>EmittedAt</code> and <code>ExpiresAt</code> set. If the
+  buffer is at its 128-emission capacity, the oldest emission (earliest
+  <code>ExpiresAt</code>) is evicted to make room.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Cancel"><code style="text-decoration:none">Cancel</code><a href="#Cancel" class="hash-link" aria-label="Direct link to Cancel" title="Direct link to Cancel">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundBuffer.lua#L67"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundBuffer<!-- -->:</code><code class="green_DgR4">Cancel</code><code>(</code><div class="inset_uKQm"><div><code>emissionId<!-- -->: </code><code class="blue_P4bS">string</code><span class="inlineDescription_G7Er">-- <span>
+<p>The <code>Id</code> of the emission to cancel.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>Immediately removes an emission from the active set.</p>
+<p>
+  The emission disappears from all subsequent <code>:IterateNear()</code> results.
+  The expiry queue entry is left in place for performance — it will be
+  skipped silently during the next prune pass.
+</p>
+<p>
+  Returns <code>true</code> if the emission was found and removed, <code>false</code> if it was
+  not in the active set (already expired or never stored).
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="IterateNear"><code style="text-decoration:none">IterateNear</code><a href="#IterateNear" class="hash-link" aria-label="Direct link to IterateNear" title="Direct link to IterateNear">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundBuffer.lua#L88"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundBuffer<!-- -->:</code><code class="green_DgR4">IterateNear</code><code>(</code><div class="inset_uKQm"><div><code>position<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The listener's world position.</p>
+</span></span></div><div><code>maxRadius<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>Maximum distance to consider, in studs.</p>
+</span></span></div></div><code>) → </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission?</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>Iterator that yields SoundEmission objects within range.</p>
+</span></span></div><div>
+<p>
+  Returns a stateful iterator over all active emissions within <code>maxRadius</code>
+  studs of <code>position</code>.
+</p>
+<p>
+  The iteration is over a snapshot taken at call time — the active table
+  can change safely during iteration.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">for</span> emission <span class="token keyword">in</span> buffer<span class="token punctuation">:</span><span class="token function">IterateNear</span><span class="token punctuation">(</span>listenerPos<span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span> <span class="token keyword">do</span>
+    <span class="token comment">-- process emission</span>
+<span class="token keyword">end</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetCount"><code style="text-decoration:none">GetCount</code><a href="#GetCount" class="hash-link" aria-label="Direct link to GetCount" title="Direct link to GetCount">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundBuffer.lua#L95"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundBuffer<!-- -->:</code><code class="green_DgR4">GetCount</code><code>(</code><code>) → </code><code class="blue_P4bS">number</code></div><div>
+<p>Returns the total number of active emissions currently in the buffer.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="IsActive"><code style="text-decoration:none">IsActive</code><a href="#IsActive" class="hash-link" aria-label="Direct link to IsActive" title="Direct link to IsActive">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundBuffer.lua#L103"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundBuffer<!-- -->:</code><code class="green_DgR4">IsActive</code><code>(</code><code>emissionId<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>Returns <code>true</code> if an emission with the given ID is currently active.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Destroy"><code style="text-decoration:none">Destroy</code><a href="#Destroy" class="hash-link" aria-label="Direct link to Destroy" title="Direct link to Destroy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundBuffer.lua#L112"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundBuffer<!-- -->:</code><code class="green_DgR4">Destroy</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Destroys the buffer, cancels the prune task, and clears all emissions.</p>
+<p>Idempotent — safe to call twice.</p>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;new&quot;,
+            &quot;desc&quot;: &quot;Creates a new SoundBuffer and starts its background prune task.\n\nThe prune task runs every 0.5 seconds and removes expired emissions from\nthe buffer and expiry queue. It is cancelled on `:Destroy()`.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;SoundBuffer&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 37,
+                &quot;path&quot;: &quot;docs/SoundBuffer.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Store&quot;,
+            &quot;desc&quot;: &quot;Stores an emission in the buffer.\n\nThe emission must already have `EmittedAt` and `ExpiresAt` set. If the\nbuffer is at its 128-emission capacity, the oldest emission (earliest\n`ExpiresAt`) is evicted to make room.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;emission&quot;,
+                    &quot;desc&quot;: &quot;A fully constructed emission.&quot;,
+                    &quot;lua_type&quot;: &quot;SoundEmission&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 50,
+                &quot;path&quot;: &quot;docs/SoundBuffer.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Cancel&quot;,
+            &quot;desc&quot;: &quot;Immediately removes an emission from the active set.\n\nThe emission disappears from all subsequent `:IterateNear()` results.\nThe expiry queue entry is left in place for performance — it will be\nskipped silently during the next prune pass.\n\nReturns `true` if the emission was found and removed, `false` if it was\nnot in the active set (already expired or never stored).&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;emissionId&quot;,
+                    &quot;desc&quot;: &quot;The `Id` of the emission to cancel.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 67,
+                &quot;path&quot;: &quot;docs/SoundBuffer.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;IterateNear&quot;,
+            &quot;desc&quot;: &quot;Returns a stateful iterator over all active emissions within `maxRadius`\nstuds of `position`.\n\nThe iteration is over a snapshot taken at call time — the active table\ncan change safely during iteration.\n\n```lua\nfor emission in buffer:IterateNear(listenerPos, 500) do\n    -- process emission\nend\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;position&quot;,
+                    &quot;desc&quot;: &quot;The listener&#x27;s world position.&quot;,
+                    &quot;lua_type&quot;: &quot;Vector3&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;maxRadius&quot;,
+                    &quot;desc&quot;: &quot;Maximum distance to consider, in studs.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Iterator that yields SoundEmission objects within range.&quot;,
+                    &quot;lua_type&quot;: &quot;() -&gt; SoundEmission?&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 88,
+                &quot;path&quot;: &quot;docs/SoundBuffer.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetCount&quot;,
+            &quot;desc&quot;: &quot;Returns the total number of active emissions currently in the buffer.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 95,
+                &quot;path&quot;: &quot;docs/SoundBuffer.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;IsActive&quot;,
+            &quot;desc&quot;: &quot;Returns `true` if an emission with the given ID is currently active.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;emissionId&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 103,
+                &quot;path&quot;: &quot;docs/SoundBuffer.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Destroy&quot;,
+            &quot;desc&quot;: &quot;Destroys the buffer, cancels the prune task, and clears all emissions.\n\nIdempotent — safe to call twice.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 112,
+                &quot;path&quot;: &quot;docs/SoundBuffer.lua&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;SoundBuffer&quot;,
+    &quot;desc&quot;: &quot;Persistence and lifecycle layer for active sound emissions.\n\nThe buffer solves a fundamental problem: any polling consumer calls\n`:QueryPosition()` at discrete intervals, but sound events happen at\narbitrary moments in continuous time. An instantaneous event like a\ngunshot that fires at `t = 0.05` must still be detectable when a query\nruns at `t = 0.1`, `t = 0.2`, and potentially `t = 0.3`.\n\nThe solution is a relevance window — each emission persists in the buffer\nfor longer than its physical duration:\n\n```\nExpiresAt = EmittedAt + Duration + DECAY_WINDOW (0.6s)\n```\n\nA gunshot with a 0.05s physical duration stays in the buffer for 0.65s\ntotal, ensuring it is visible to at least six consecutive 0.1s query ticks.\n\nSoundBuffer is managed internally by [Resonix] and does not need to be\nconstructed directly.&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 25,
+        &quot;path&quot;: &quot;docs/SoundBuffer.lua&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#Cancel" class="table-of-contents__link toc-highlight">:Cancel</a></li><li><a href="#Destroy" class="table-of-contents__link toc-highlight">:Destroy</a></li><li><a href="#GetCount" class="table-of-contents__link toc-highlight">:GetCount</a></li><li><a href="#IsActive" class="table-of-contents__link toc-highlight">:IsActive</a></li><li><a href="#IterateNear" class="table-of-contents__link toc-highlight">:IterateNear</a></li><li><a href="#Store" class="table-of-contents__link toc-highlight">:Store</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://discord.gg/XMYMRKcd3g" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord Server<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discord.com/users/897026279243669504" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord (Direct)<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">Social</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.instagram.com/vedevelopment/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Instagram<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://x.com/vedevelopment_" target="_blank" rel="noopener noreferrer" class="footer__link-item">X (Twitter)<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://www.tiktok.com/@vedevelopment" target="_blank" rel="noopener noreferrer" class="footer__link-item">TikTok<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 VeDevelopment</div></div></div></footer></div>
+</body>
+</html>

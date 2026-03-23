@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">SoundPropagator | Resonix</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://vel136.github.io/Resonix/api/SoundPropagator"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="SoundPropagator | Resonix"><meta data-rh="true" name="description" content="Pure physics layer for acoustic propagation simulation.
+
+Every function in this module is pure in the strict sense: no state is
+read or written, no signals are fired, and given the same inputs (except
+for workspace raycasts which depend on geometry), it always produces the
+same outputs. It can be called safely from any context.
+
+**Two-stage propagation model:**
+
+Stage 1 — Distance falloff. Sound energy disperses according to the
+inverse square law, normalized to the emission&#x27;s configured radius.
+O(1), no raycasting.
+
+Stage 2 — Geometric occlusion. Sound energy is absorbed as it passes
+through solid geometry. Uses Beer-Lambert exponential decay with
+per-material, per-frequency absorption coefficients.
+
+**Accuracy tiers:**
+
+| Tier | When used | Raycasts |
+|------|-----------|----------|
+| `Full` | Listener within 50% of radius | Up to 12 (ray march + thickness probes) |
+| `Simple` | Listener 50–100% of radius | 1 |
+| `Skip` | Beyond radius or budget exceeded | 0 |"><meta data-rh="true" property="og:description" content="Pure physics layer for acoustic propagation simulation.
+
+Every function in this module is pure in the strict sense: no state is
+read or written, no signals are fired, and given the same inputs (except
+for workspace raycasts which depend on geometry), it always produces the
+same outputs. It can be called safely from any context.
+
+**Two-stage propagation model:**
+
+Stage 1 — Distance falloff. Sound energy disperses according to the
+inverse square law, normalized to the emission&#x27;s configured radius.
+O(1), no raycasting.
+
+Stage 2 — Geometric occlusion. Sound energy is absorbed as it passes
+through solid geometry. Uses Beer-Lambert exponential decay with
+per-material, per-frequency absorption coefficients.
+
+**Accuracy tiers:**
+
+| Tier | When used | Raycasts |
+|------|-----------|----------|
+| `Full` | Listener within 50% of radius | Up to 12 (ray march + thickness probes) |
+| `Simple` | Listener 50–100% of radius | 1 |
+| `Skip` | Beyond radius or budget exceeded | 0 |"><link data-rh="true" rel="canonical" href="https://vel136.github.io/Resonix/api/SoundPropagator"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Resonix/api/SoundPropagator" hreflang="en"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Resonix/api/SoundPropagator" hreflang="x-default"><link rel="stylesheet" href="/Resonix/assets/css/styles.5cbed574.css">
+<script src="/Resonix/assets/js/runtime~main.8db52554.js" defer="defer"></script>
+<script src="/Resonix/assets/js/main.2bdf5a4f.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Resonix/"><b class="navbar__title text--truncate">Resonix</b></a><a class="navbar__item navbar__link" href="/Resonix/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Resonix/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/Vel136/Resonix" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/Resonix/api/Resonix">Core</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Resonix/api/Resonix">​Resonix</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/Resonix/api/SoundPropagator">​Sound​Propagator</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Resonix/api/SoundBuffer">​Sound​Buffer</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Resonix/api/ResonixNet">Network</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Resonix/api/SoundTypes">Types</a></div></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Sound</span><span style="display:inline-block">Propagator</span></h1><div class="luaClassTags_EipM"></div><div>
+<p>Pure physics layer for acoustic propagation simulation.</p>
+<p>
+  Every function in this module is pure in the strict sense: no state is
+  read or written, no signals are fired, and given the same inputs (except
+  for workspace raycasts which depend on geometry), it always produces the
+  same outputs. It can be called safely from any context.
+</p>
+<p><strong>Two-stage propagation model:</strong></p>
+<p>
+  Stage 1 — Distance falloff. Sound energy disperses according to the
+  inverse square law, normalized to the emission's configured radius.
+  O(1), no raycasting.
+</p>
+<p>
+  Stage 2 — Geometric occlusion. Sound energy is absorbed as it passes
+  through solid geometry. Uses Beer-Lambert exponential decay with
+  per-material, per-frequency absorption coefficients.
+</p>
+<p><strong>Accuracy tiers:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>When used</th>
+      <th>Raycasts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Full</code></td>
+      <td>Listener within 50% of radius</td>
+      <td>Up to 12 (ray march + thickness probes)</td>
+    </tr>
+    <tr>
+      <td><code>Simple</code></td>
+      <td>Listener 50–100% of radius</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td><code>Skip</code></td>
+      <td>Beyond radius or budget exceeded</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Accuracy"><code style="text-decoration:none">Accuracy</code><a href="#Accuracy" class="hash-link" aria-label="Direct link to Accuracy" title="Direct link to Accuracy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundPropagator.lua#L47"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundPropagator<!-- -->.<!-- -->Accuracy<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><div class="inset_uKQm"><code>Full<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Simple<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Skip<!-- -->: </code><code class="blue_P4bS">string</code></div><code class="purple_ieR2">}</code></div><div>
+<p>
+  Accuracy tier constants. Pass these to <a href="/Resonix/api/SoundPropagator#ComputeOcclusion">SoundPropagator.ComputeOcclusion</a>
+  or <a href="/Resonix/api/SoundPropagator#ComputeEffectiveIntensity">SoundPropagator.ComputeEffectiveIntensity</a> to override the
+  auto-selected tier.
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Full</code></td>
+      <td>Multi-segment ray march with per-material frequency absorption. Most accurate.</td>
+    </tr>
+    <tr>
+      <td><code>Simple</code></td>
+      <td>Single raycast with fixed conservative attenuation on hit.</td>
+    </tr>
+    <tr>
+      <td><code>Skip</code></td>
+      <td>No occlusion check — returns <code>1.0</code> immediately.</td>
+    </tr>
+  </tbody>
+</table>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="ComputeDistanceFalloff"><code style="text-decoration:none">ComputeDistanceFalloff</code><a href="#ComputeDistanceFalloff" class="hash-link" aria-label="Direct link to ComputeDistanceFalloff" title="Direct link to ComputeDistanceFalloff">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundPropagator.lua#L70"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundPropagator<!-- -->.</code><code class="green_DgR4">ComputeDistanceFalloff</code><code>(</code><div class="inset_uKQm"><div><code>sourceIntensity<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Source intensity at origin, 0–100 scale.</p>
+</span></span></div><div><code>sourceRadius<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Maximum propagation distance in studs.</p>
+</span></span></div><div><code>distance<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>Actual distance from source to listener in studs.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>Intensity after distance falloff, 0–100.</p>
+</span></span></div><div>
+<p>
+  Computes the intensity at <code>distance</code> from a source after free-space
+  propagation, before any geometric occlusion.
+</p>
+<p>Uses a normalized inverse-square formula:</p>
+<pre><code>intensity(d) = I₀ × (1 - (d / R)²)
+</code></pre>
+<p>
+  This gives full source intensity at <code>d = 0</code> and zero at <code>d = R</code>, with a
+  smooth physically-motivated curve in between.
+</p>
+<p>Pure function — no state, no side effects.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="ComputeOcclusion"><code style="text-decoration:none">ComputeOcclusion</code><a href="#ComputeOcclusion" class="hash-link" aria-label="Direct link to ComputeOcclusion" title="Direct link to ComputeOcclusion">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundPropagator.lua#L95"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundPropagator<!-- -->.</code><code class="green_DgR4">ComputeOcclusion</code><code>(</code><div class="inset_uKQm"><div><code>sourcePos<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Sound emission origin.</p>
+</span></span></div><div><code>listenerPos<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Listener position.</p>
+</span></span></div><div><code>frequency<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p><code>"low"</code> | <code>"mid"</code> | <code>"high"</code> — determines which absorption coefficients are used.</p>
+</span></span></div><div><code>excludeList<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Instances excluded from raycasts (e.g. the emitting character).</p>
+</span></span></div><div><code>accuracy<!-- -->: </code><code class="blue_P4bS">string?</code><span class="inlineDescription_G7Er">-- <span>
+<p>One of <code>SoundPropagator.Accuracy</code>. Defaults to <code>Full</code>.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>Transmission factor, 0–1.</p>
+</span></span></div><div>
+<p>Computes the transmission factor through all geometry between two points.</p>
+<p>Returns a multiplier between 0 and 1:</p>
+<ul>
+  <li><code>1.0</code> — completely clear path</li>
+  <li><code>0.5</code> — half the intensity is transmitted</li>
+  <li><code>~0</code> — heavily blocked (never exactly 0 by Beer-Lambert math)</li>
+</ul>
+<p>
+  In <code>Full</code> accuracy, the function performs a multi-segment ray march,
+  measures each intersected geometry piece using a backward-ray technique,
+  and accumulates <code>thickness × material_coefficient</code> per segment. In
+  <code>Simple</code> accuracy, a single raycast is fired and a fixed attenuation is
+  applied on hit. In <code>Skip</code>, returns <code>1.0</code> immediately.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="ComputeEffectiveIntensity"><code style="text-decoration:none">ComputeEffectiveIntensity</code><a href="#ComputeEffectiveIntensity" class="hash-link" aria-label="Direct link to ComputeEffectiveIntensity" title="Direct link to ComputeEffectiveIntensity">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundPropagator.lua#L117"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundPropagator<!-- -->.</code><code class="green_DgR4">ComputeEffectiveIntensity</code><code>(</code><div class="inset_uKQm"><div><code>emission<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The emission to evaluate.</p>
+</span></span></div><div><code>listenerPos<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The listener's world position.</p>
+</span></span></div><div><code>excludeList<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Instances excluded from occlusion raycasts.</p>
+</span></span></div><div><code>accuracy<!-- -->: </code><code class="blue_P4bS">string?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Optional accuracy tier override.</p>
+</span></span></div></div><code>) → </code><code>(</code><div class="inset_uKQm"><div><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Effective intensity at listener, 0–100.</p>
+</span></span></div><div><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Transmission (occlusion) factor, 0–1.</p>
+</span></span></div><div><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>Straight-line distance from source to listener, in studs.</p>
+</span></span></div></div><code>)</code></div><div>
+<p>
+  Computes the effective intensity of a <a href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a> at a listener
+  position, running both propagation stages in sequence.
+</p>
+<p>
+  This is the primary function external systems call. Returns three values:
+  effective intensity, transmission factor, and straight-line distance.
+</p>
+<p>
+  If the accuracy parameter is omitted, the tier is selected automatically
+  based on normalized distance (Full for ≤50%, Simple for 50–100%).
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="RecommendAccuracy"><code style="text-decoration:none">RecommendAccuracy</code><a href="#RecommendAccuracy" class="hash-link" aria-label="Direct link to RecommendAccuracy" title="Direct link to RecommendAccuracy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundPropagator.lua#L135"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundPropagator<!-- -->.</code><code class="green_DgR4">RecommendAccuracy</code><code>(</code><div class="inset_uKQm"><div><code>emission<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a></code><code>,</code></div><div><code>distance<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>Distance from source to listener in studs.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">string</code><span class="inlineDescription_G7Er">-- <span>
+<p>One of <code>SoundPropagator.Accuracy</code>.</p>
+</span></span></div><div>
+<p>
+  Returns the recommended accuracy tier for a given emission and listener
+  distance.
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Normalised distance</th>
+      <th>Tier</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>>= 1.0</code> (at or beyond radius)</td>
+      <td><code>Skip</code></td>
+    </tr>
+    <tr>
+      <td><code>0.5 – 1.0</code></td>
+      <td><code>Simple</code></td>
+    </tr>
+    <tr>
+      <td><code>&#x3C; 0.5</code></td>
+      <td><code>Full</code></td>
+    </tr>
+  </tbody>
+</table>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;ComputeDistanceFalloff&quot;,
+            &quot;desc&quot;: &quot;Computes the intensity at `distance` from a source after free-space\npropagation, before any geometric occlusion.\n\nUses a normalized inverse-square formula:\n\n```\nintensity(d) = I₀ × (1 - (d / R)²)\n```\n\nThis gives full source intensity at `d = 0` and zero at `d = R`, with a\nsmooth physically-motivated curve in between.\n\nPure function — no state, no side effects.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;sourceIntensity&quot;,
+                    &quot;desc&quot;: &quot;Source intensity at origin, 0–100 scale.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;sourceRadius&quot;,
+                    &quot;desc&quot;: &quot;Maximum propagation distance in studs.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;distance&quot;,
+                    &quot;desc&quot;: &quot;Actual distance from source to listener in studs.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Intensity after distance falloff, 0–100.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 70,
+                &quot;path&quot;: &quot;docs/SoundPropagator.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;ComputeOcclusion&quot;,
+            &quot;desc&quot;: &quot;Computes the transmission factor through all geometry between two points.\n\nReturns a multiplier between 0 and 1:\n- `1.0` — completely clear path\n- `0.5` — half the intensity is transmitted\n- `~0` — heavily blocked (never exactly 0 by Beer-Lambert math)\n\nIn `Full` accuracy, the function performs a multi-segment ray march,\nmeasures each intersected geometry piece using a backward-ray technique,\nand accumulates `thickness × material_coefficient` per segment. In\n`Simple` accuracy, a single raycast is fired and a fixed attenuation is\napplied on hit. In `Skip`, returns `1.0` immediately.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;sourcePos&quot;,
+                    &quot;desc&quot;: &quot;Sound emission origin.&quot;,
+                    &quot;lua_type&quot;: &quot;Vector3&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;listenerPos&quot;,
+                    &quot;desc&quot;: &quot;Listener position.&quot;,
+                    &quot;lua_type&quot;: &quot;Vector3&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;frequency&quot;,
+                    &quot;desc&quot;: &quot;`\&quot;low\&quot;` | `\&quot;mid\&quot;` | `\&quot;high\&quot;` — determines which absorption coefficients are used.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;excludeList&quot;,
+                    &quot;desc&quot;: &quot;Instances excluded from raycasts (e.g. the emitting character).&quot;,
+                    &quot;lua_type&quot;: &quot;{ Instance }&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;accuracy&quot;,
+                    &quot;desc&quot;: &quot;One of `SoundPropagator.Accuracy`. Defaults to `Full`.&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Transmission factor, 0–1.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 95,
+                &quot;path&quot;: &quot;docs/SoundPropagator.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;ComputeEffectiveIntensity&quot;,
+            &quot;desc&quot;: &quot;Computes the effective intensity of a [SoundEmission] at a listener\nposition, running both propagation stages in sequence.\n\nThis is the primary function external systems call. Returns three values:\neffective intensity, transmission factor, and straight-line distance.\n\nIf the accuracy parameter is omitted, the tier is selected automatically\nbased on normalized distance (Full for ≤50%, Simple for 50–100%).&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;emission&quot;,
+                    &quot;desc&quot;: &quot;The emission to evaluate.&quot;,
+                    &quot;lua_type&quot;: &quot;SoundEmission&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;listenerPos&quot;,
+                    &quot;desc&quot;: &quot;The listener&#x27;s world position.&quot;,
+                    &quot;lua_type&quot;: &quot;Vector3&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;excludeList&quot;,
+                    &quot;desc&quot;: &quot;Instances excluded from occlusion raycasts.&quot;,
+                    &quot;lua_type&quot;: &quot;{ Instance }&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;accuracy&quot;,
+                    &quot;desc&quot;: &quot;Optional accuracy tier override.&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Effective intensity at listener, 0–100.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;desc&quot;: &quot;Transmission (occlusion) factor, 0–1.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;desc&quot;: &quot;Straight-line distance from source to listener, in studs.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 117,
+                &quot;path&quot;: &quot;docs/SoundPropagator.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;RecommendAccuracy&quot;,
+            &quot;desc&quot;: &quot;Returns the recommended accuracy tier for a given emission and listener\ndistance.\n\n| Normalised distance | Tier |\n|---------------------|------|\n| `&gt;= 1.0` (at or beyond radius) | `Skip` |\n| `0.5 – 1.0` | `Simple` |\n| `&lt; 0.5` | `Full` |&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;emission&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;SoundEmission&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;distance&quot;,
+                    &quot;desc&quot;: &quot;Distance from source to listener in studs.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;One of `SoundPropagator.Accuracy`.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 135,
+                &quot;path&quot;: &quot;docs/SoundPropagator.lua&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [
+        {
+            &quot;name&quot;: &quot;Accuracy&quot;,
+            &quot;desc&quot;: &quot;Accuracy tier constants. Pass these to [SoundPropagator.ComputeOcclusion]\nor [SoundPropagator.ComputeEffectiveIntensity] to override the\nauto-selected tier.\n\n| Value | Meaning |\n|-------|---------|\n| `Full` | Multi-segment ray march with per-material frequency absorption. Most accurate. |\n| `Simple` | Single raycast with fixed conservative attenuation on hit. |\n| `Skip` | No occlusion check — returns `1.0` immediately. |&quot;,
+            &quot;lua_type&quot;: &quot;{ Full: string, Simple: string, Skip: string }&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 47,
+                &quot;path&quot;: &quot;docs/SoundPropagator.lua&quot;
+            }
+        }
+    ],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;SoundPropagator&quot;,
+    &quot;desc&quot;: &quot;Pure physics layer for acoustic propagation simulation.\n\nEvery function in this module is pure in the strict sense: no state is\nread or written, no signals are fired, and given the same inputs (except\nfor workspace raycasts which depend on geometry), it always produces the\nsame outputs. It can be called safely from any context.\n\n**Two-stage propagation model:**\n\nStage 1 — Distance falloff. Sound energy disperses according to the\ninverse square law, normalized to the emission&#x27;s configured radius.\nO(1), no raycasting.\n\nStage 2 — Geometric occlusion. Sound energy is absorbed as it passes\nthrough solid geometry. Uses Beer-Lambert exponential decay with\nper-material, per-frequency absorption coefficients.\n\n**Accuracy tiers:**\n\n| Tier | When used | Raycasts |\n|------|-----------|----------|\n| `Full` | Listener within 50% of radius | Up to 12 (ray march + thickness probes) |\n| `Simple` | Listener 50–100% of radius | 1 |\n| `Skip` | Beyond radius or budget exceeded | 0 |&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 29,
+        &quot;path&quot;: &quot;docs/SoundPropagator.lua&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Accuracy" class="table-of-contents__link toc-highlight">Accuracy</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#ComputeDistanceFalloff" class="table-of-contents__link toc-highlight">.ComputeDistanceFalloff</a></li><li><a href="#ComputeEffectiveIntensity" class="table-of-contents__link toc-highlight">.ComputeEffectiveIntensity</a></li><li><a href="#ComputeOcclusion" class="table-of-contents__link toc-highlight">.ComputeOcclusion</a></li><li><a href="#RecommendAccuracy" class="table-of-contents__link toc-highlight">.RecommendAccuracy</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://discord.gg/XMYMRKcd3g" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord Server<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discord.com/users/897026279243669504" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord (Direct)<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">Social</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.instagram.com/vedevelopment/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Instagram<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://x.com/vedevelopment_" target="_blank" rel="noopener noreferrer" class="footer__link-item">X (Twitter)<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://www.tiktok.com/@vedevelopment" target="_blank" rel="noopener noreferrer" class="footer__link-item">TikTok<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 VeDevelopment</div></div></div></footer></div>
+</body>
+</html>
