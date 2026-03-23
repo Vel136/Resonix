@@ -1,0 +1,58 @@
+[moonwave]
+sourceDir = ["docs"]
+
+[docusaurus]
+title = "Resonix"
+tagline = "Sound travels where physics says it should."
+url = "https://vel136.github.io"
+baseUrl = "/Resonix/"
+
+[home]
+enabled = true
+
+includeReadme = true
+
+[[classOrder]]
+section = "Core"
+classes = ["Resonix", "SoundPropagator", "SoundBuffer"]
+
+[[classOrder]]
+section = "Network"
+classes = ["ResonixNet"]
+
+[[classOrder]]
+section = "Types"
+classes = ["SoundTypes"]
+
+[navbar]
+title = "Resonix"
+
+[footer]
+style = "dark"
+copyright = "Copyright © 2026 VeDevelopment"
+
+[[footer.links]]
+title = "Community"
+
+[[footer.links.items]]
+label = "Discord Server"
+href = "https://discord.gg/XMYMRKcd3g"
+
+[[footer.links.items]]
+label = "Discord (Direct)"
+href = "https://discord.com/users/897026279243669504"
+
+[[footer.links]]
+title = "Social"
+
+[[footer.links.items]]
+label = "Instagram"
+href = "https://www.instagram.com/vedevelopment/"
+
+[[footer.links.items]]
+label = "X (Twitter)"
+href = "https://x.com/vedevelopment_"
+
+[[footer.links.items]]
+label = "TikTok"
+href = "https://www.tiktok.com/@vedevelopment"
