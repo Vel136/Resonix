@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">Resonix | Resonix</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://vel136.github.io/Resonix/api/Resonix"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="Resonix | Resonix"><meta data-rh="true" name="description" content="Acoustic simulation engine for Roblox.
+
+Resonix manages all active sound emissions. Every query runs inverse-square
+distance falloff followed by Beer-Lambert geometric occlusion through world
+geometry, and returns a sorted list of [SoundStimulus] objects at the
+listener&#x27;s position.
+
+```lua
+local Resonix = require(ReplicatedStorage.Resonix)
+
+local Engine = Resonix.new()
+
+-- Emit a sound when an event occurs
+local id = Engine:EmitPreset(&quot;Gunshot_Rifle&quot;, character.HumanoidRootPart.Position, character)
+
+-- Query what is audible at a position
+local stimuli = Engine:QueryPosition(listenerPos, 5)
+
+for _, stimulus in stimuli do
+    print(stimulus.Emission.Tag, stimulus.EffectiveIntensity)
+end
+
+-- Cancel a long-duration emission early
+Engine:Cancel(id)
+
+Engine:Destroy()
+```"><meta data-rh="true" property="og:description" content="Acoustic simulation engine for Roblox.
+
+Resonix manages all active sound emissions. Every query runs inverse-square
+distance falloff followed by Beer-Lambert geometric occlusion through world
+geometry, and returns a sorted list of [SoundStimulus] objects at the
+listener&#x27;s position.
+
+```lua
+local Resonix = require(ReplicatedStorage.Resonix)
+
+local Engine = Resonix.new()
+
+-- Emit a sound when an event occurs
+local id = Engine:EmitPreset(&quot;Gunshot_Rifle&quot;, character.HumanoidRootPart.Position, character)
+
+-- Query what is audible at a position
+local stimuli = Engine:QueryPosition(listenerPos, 5)
+
+for _, stimulus in stimuli do
+    print(stimulus.Emission.Tag, stimulus.EffectiveIntensity)
+end
+
+-- Cancel a long-duration emission early
+Engine:Cancel(id)
+
+Engine:Destroy()
+```"><link data-rh="true" rel="canonical" href="https://vel136.github.io/Resonix/api/Resonix"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Resonix/api/Resonix" hreflang="en"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Resonix/api/Resonix" hreflang="x-default"><link rel="stylesheet" href="/Resonix/assets/css/styles.5cbed574.css">
+<script src="/Resonix/assets/js/runtime~main.8db52554.js" defer="defer"></script>
+<script src="/Resonix/assets/js/main.2bdf5a4f.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Resonix/"><b class="navbar__title text--truncate">Resonix</b></a><a class="navbar__item navbar__link" href="/Resonix/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Resonix/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/Vel136/Resonix" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/Resonix/api/Resonix">Core</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/Resonix/api/Resonix">​Resonix</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Resonix/api/SoundPropagator">​Sound​Propagator</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Resonix/api/SoundBuffer">​Sound​Buffer</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Resonix/api/ResonixNet">Network</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Resonix/api/SoundTypes">Types</a></div></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Resonix</span></h1><div class="luaClassTags_EipM"></div><div>
+<p>Acoustic simulation engine for Roblox.</p>
+<p>
+  Resonix manages all active sound emissions. Every query runs inverse-square
+  distance falloff followed by Beer-Lambert geometric occlusion through world
+  geometry, and returns a sorted list of <a href="/Resonix/api/SoundTypes#SoundStimulus">SoundStimulus</a> objects at the
+  listener's position.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> Resonix <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span>ReplicatedStorage<span class="token punctuation">.</span>Resonix<span class="token punctuation">)</span>
+
+<span class="token keyword">local</span> Engine <span class="token operator">=</span> Resonix<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- Emit a sound when an event occurs</span>
+<span class="token keyword">local</span> id <span class="token operator">=</span> Engine<span class="token punctuation">:</span><span class="token function">EmitPreset</span><span class="token punctuation">(</span><span class="token string">"Gunshot_Rifle"</span><span class="token punctuation">,</span> character<span class="token punctuation">.</span>HumanoidRootPart<span class="token punctuation">.</span>Position<span class="token punctuation">,</span> character<span class="token punctuation">)</span>
+
+<span class="token comment">-- Query what is audible at a position</span>
+<span class="token keyword">local</span> stimuli <span class="token operator">=</span> Engine<span class="token punctuation">:</span><span class="token function">QueryPosition</span><span class="token punctuation">(</span>listenerPos<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> _<span class="token punctuation">,</span> stimulus <span class="token keyword">in</span> stimuli <span class="token keyword">do</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>stimulus<span class="token punctuation">.</span>Emission<span class="token punctuation">.</span>Tag<span class="token punctuation">,</span> stimulus<span class="token punctuation">.</span>EffectiveIntensity<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+
+<span class="token comment">-- Cancel a long-duration emission early</span>
+Engine<span class="token punctuation">:</span><span class="token function">Cancel</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+
+Engine<span class="token punctuation">:</span><span class="token function">Destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Frequency"><code style="text-decoration:none">Frequency</code><a href="#Frequency" class="hash-link" aria-label="Direct link to Frequency" title="Direct link to Frequency">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L44"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->.<!-- -->Frequency<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><div class="inset_uKQm"><code>Low<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Mid<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>High<!-- -->: </code><code class="blue_P4bS">string</code></div><code class="purple_ieR2">}</code></div><div>
+<p>
+  Re-export of <a href="/Resonix/api/SoundTypes#Frequency">SoundTypes.Frequency</a>. Use <code>Resonix.Frequency.Low</code>,
+  <code>Resonix.Frequency.Mid</code>, or <code>Resonix.Frequency.High</code> when registering
+  custom presets so you only need one require.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Preset"><code style="text-decoration:none">Preset</code><a href="#Preset" class="hash-link" aria-label="Direct link to Preset" title="Direct link to Preset">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L52"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->.<!-- -->Preset<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">}</code></div><div>
+<p>
+  Re-export of <a href="/Resonix/api/SoundTypes#Preset">SoundTypes.Preset</a>. A frozen table of all built-in preset
+  key constants. Use these as arguments to <code>:EmitPreset()</code> to avoid typos.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Accuracy"><code style="text-decoration:none">Accuracy</code><a href="#Accuracy" class="hash-link" aria-label="Direct link to Accuracy" title="Direct link to Accuracy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L60"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->.<!-- -->Accuracy<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><div class="inset_uKQm"><code>Full<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Simple<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Skip<!-- -->: </code><code class="blue_P4bS">string</code></div><code class="purple_ieR2">}</code></div><div>
+<p>
+  Re-export of <code>SoundPropagator.Accuracy</code>. Exposed here so callers only
+  need one require when passing an explicit accuracy tier to <code>:QueryPosition()</code>.
+</p>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L77"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/Resonix">Resonix</a></code></div><div>
+<p>
+  Creates a new Resonix engine instance. The engine owns the sound buffer,
+  the occlusion cache, and all registered presets.
+</p>
+<p>
+  All 14 built-in presets (weapons, footsteps, impacts, explosions) are
+  registered automatically. Additional presets can be registered at any time
+  via <code>:RegisterPreset()</code>.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> Engine <span class="token operator">=</span> Resonix<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="RegisterPreset"><code style="text-decoration:none">RegisterPreset</code><a href="#RegisterPreset" class="hash-link" aria-label="Direct link to RegisterPreset" title="Direct link to RegisterPreset">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L102"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">RegisterPreset</code><code>(</code><div class="inset_uKQm"><div><code>key<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Unique preset identifier. Used as the argument to <code>:EmitPreset()</code>.</p>
+</span></span></div><div><code>preset<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#EmissionPreset">EmissionPreset</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>Preset configuration table.</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Registers a custom emission preset under the given key.</p>
+<p>
+  Once registered, the preset can be used with <code>:EmitPreset()</code> and
+  <code>ResonixNet:Fire()</code>. Both server and client must register custom presets
+  in the <strong>same order</strong> when using ResonixNet — the hash is assigned by
+  registration position.
+</p>
+<pre class="language-lua"><code class="language-lua">Engine<span class="token punctuation">:</span><span class="token function">RegisterPreset</span><span class="token punctuation">(</span><span class="token string">"Helicopter_Approach"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    Intensity  <span class="token operator">=</span> <span class="token number">75</span><span class="token punctuation">,</span>
+    Radius     <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">,</span>
+    Duration   <span class="token operator">=</span> <span class="token number">10.0</span><span class="token punctuation">,</span>
+    Frequency  <span class="token operator">=</span> Resonix<span class="token punctuation">.</span>Frequency<span class="token punctuation">.</span>Low<span class="token punctuation">,</span>
+    DefaultTag <span class="token operator">=</span> <span class="token string">"Helicopter_Approach"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="EmitPreset"><code style="text-decoration:none">EmitPreset</code><a href="#EmitPreset" class="hash-link" aria-label="Direct link to EmitPreset" title="Direct link to EmitPreset">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L133"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">EmitPreset</code><code>(</code><div class="inset_uKQm"><div><code>presetKey<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Key of a registered preset.</p>
+</span></span></div><div><code>position<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>World-space origin of the emission.</p>
+</span></span></div><div><code>source<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance?<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Optional Instance excluded from occlusion raycasts.</p>
+</span></span></div><div><code>tagOverride<!-- -->: </code><code class="blue_P4bS">string?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Overrides the preset's DefaultTag in query results.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">string</code><span class="inlineDescription_G7Er">-- <span>
+<p>Unique emission ID.</p>
+</span></span></div><div>
+<p>Emits a sound using a registered preset.</p>
+<p>
+  Looks up the preset by key, constructs a <a href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a>, stores it in
+  the buffer, and returns the emission's unique ID. Hold onto the ID to
+  cancel the emission early via <code>:Cancel()</code>.
+</p>
+<p>
+  The optional <code>source</code> argument is an <code>Instance</code> excluded from occlusion
+  raycasts — pass the character or part that produced the sound so its own
+  geometry does not block the sound it just emitted.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token comment">-- Simple emit</span>
+Engine<span class="token punctuation">:</span><span class="token function">EmitPreset</span><span class="token punctuation">(</span><span class="token string">"Gunshot_Rifle"</span><span class="token punctuation">,</span> origin<span class="token punctuation">,</span> character<span class="token punctuation">)</span>
+
+<span class="token comment">-- Long-duration emit that can be cancelled</span>
+<span class="token keyword">local</span> id <span class="token operator">=</span> Engine<span class="token punctuation">:</span><span class="token function">EmitPreset</span><span class="token punctuation">(</span><span class="token string">"VendingMachine"</span><span class="token punctuation">,</span> vendingMachine<span class="token punctuation">.</span>Position<span class="token punctuation">,</span> vendingMachine<span class="token punctuation">)</span>
+<span class="token comment">-- ... later:</span>
+Engine<span class="token punctuation">:</span><span class="token function">Cancel</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Emit"><code style="text-decoration:none">Emit</code><a href="#Emit" class="hash-link" aria-label="Direct link to Emit" title="Direct link to Emit">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L156"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">Emit</code><code>(</code><code>config<!-- -->: </code><code class="purple_ieR2">{</code><div class="inset_uKQm"><code>Position<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Intensity<!-- -->: </code><code class="blue_P4bS">number</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Radius<!-- -->: </code><code class="blue_P4bS">number</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Duration<!-- -->: </code><code class="blue_P4bS">number</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Frequency<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Source<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance?<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Tag<!-- -->: </code><code class="blue_P4bS">string?</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>PresetKey<!-- -->: </code><code class="blue_P4bS">string?</code></div><code class="purple_ieR2">}</code><code>) → </code><code class="blue_P4bS">string</code><span class="inlineDescription_G7Er">-- <span>
+<p>Unique emission ID.</p>
+</span></span></div><div>
+<p>Emits a sound with a fully specified config table.</p>
+<p>
+  Use this when no preset fits — for one-off sounds with unusual parameters.
+  <code>:EmitPreset()</code> is preferred for any sound that fires more than once.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> id <span class="token operator">=</span> Engine<span class="token punctuation">:</span><span class="token function">Emit</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    Position  <span class="token operator">=</span> origin<span class="token punctuation">,</span>
+    Intensity <span class="token operator">=</span> <span class="token number">55</span><span class="token punctuation">,</span>
+    Radius    <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">,</span>
+    Duration  <span class="token operator">=</span> <span class="token number">0.1</span><span class="token punctuation">,</span>
+    Frequency <span class="token operator">=</span> Resonix<span class="token punctuation">.</span>Frequency<span class="token punctuation">.</span>Mid<span class="token punctuation">,</span>
+    Source    <span class="token operator">=</span> emittingPart<span class="token punctuation">,</span>
+    Tag       <span class="token operator">=</span> <span class="token string">"Custom_Sound"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Cancel"><code style="text-decoration:none">Cancel</code><a href="#Cancel" class="hash-link" aria-label="Direct link to Cancel" title="Direct link to Cancel">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L171"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">Cancel</code><code>(</code><div class="inset_uKQm"><div><code>emissionId<!-- -->: </code><code class="blue_P4bS">string</code><span class="inlineDescription_G7Er">-- <span>
+<p>The ID returned by <code>:EmitPreset()</code> or <code>:Emit()</code>.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>Immediately removes an emission from the buffer.</p>
+<p>
+  Any <code>:QueryPosition()</code> call after this returns will not include the
+  cancelled emission. Occlusion cache entries for this emission are also
+  cleared.
+</p>
+<p>
+  Returns <code>true</code> if the emission was found and removed, <code>false</code> if it had
+  already expired or was never registered.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="QueryPosition"><code style="text-decoration:none">QueryPosition</code><a href="#QueryPosition" class="hash-link" aria-label="Direct link to QueryPosition" title="Direct link to QueryPosition">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L202"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">QueryPosition</code><code>(</code><div class="inset_uKQm"><div><code>position<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The listener's world position.</p>
+</span></span></div><div><code>minIntensity<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Minimum effective intensity threshold (0–100). Stimuli below this are excluded.</p>
+</span></span></div><div><code>excludeList<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code class="blue_P4bS">?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Optional instances excluded from occlusion raycasts.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#QueryResult">QueryResult</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>Array of SoundStimulus, sorted descending by EffectiveIntensity.</p>
+</span></span></div><div>
+<p>
+  Returns every audible emission at <code>position</code> with effective intensity at or
+  above <code>minIntensity</code>.
+</p>
+<p>
+  Results are sorted descending by <code>EffectiveIntensity</code> — index <code>[1]</code> is
+  always the loudest stimulus. Each result is a <a href="/Resonix/api/SoundTypes#SoundStimulus">SoundStimulus</a> containing
+  the original emission, computed intensity, direction, distance, and
+  occlusion factor.
+</p>
+<p>
+  The optional <code>excludeList</code> lets you exclude specific instances from all
+  occlusion raycasts in this query (e.g., the querying character's own model).
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> stimuli <span class="token operator">=</span> Engine<span class="token punctuation">:</span><span class="token function">QueryPosition</span><span class="token punctuation">(</span>listenerPos<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> _<span class="token punctuation">,</span> stimulus <span class="token keyword">in</span> stimuli <span class="token keyword">do</span>
+    <span class="token keyword">if</span> stimulus<span class="token punctuation">.</span>Emission<span class="token punctuation">.</span>Tag <span class="token operator">==</span> <span class="token string">"Gunshot_Rifle"</span> <span class="token keyword">then</span>
+        <span class="token comment">-- handle gunshot</span>
+    <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="QueryStrongest"><code style="text-decoration:none">QueryStrongest</code><a href="#QueryStrongest" class="hash-link" aria-label="Direct link to QueryStrongest" title="Direct link to QueryStrongest">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L216"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">QueryStrongest</code><code>(</code><div class="inset_uKQm"><div><code>position<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code></div><div><code>minIntensity<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code></div><div><code>excludeList<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code class="blue_P4bS">?</code></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundStimulus">SoundStimulus?</a></code></div><div>
+<p>
+  Returns the single loudest audible stimulus at <code>position</code>, or <code>nil</code> if
+  nothing at or above <code>minIntensity</code> is audible.
+</p>
+<p>
+  Equivalent to <code>Engine:QueryPosition(position, minIntensity)[1]</code> but
+  slightly more efficient as it stops after finding the strongest result.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="IsAudibleAt"><code style="text-decoration:none">IsAudibleAt</code><a href="#IsAudibleAt" class="hash-link" aria-label="Direct link to IsAudibleAt" title="Direct link to IsAudibleAt">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L231"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">IsAudibleAt</code><code>(</code><div class="inset_uKQm"><div><code>position<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Vector3" target="_blank" rel="noopener noreferrer">Vector3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code></div><div><code>minIntensity<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code></div><div><code>excludeList<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code class="blue_P4bS">?</code></div></div><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>
+  Returns <code>true</code> if at least one emission is audible at <code>position</code> with
+  effective intensity at or above <code>minIntensity</code>.
+</p>
+<p>
+  More efficient than <code>:QueryPosition()</code> when you only need a yes/no answer
+  — it short-circuits on the first qualifying emission rather than
+  evaluating the full set.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetStats"><code style="text-decoration:none">GetStats</code><a href="#GetStats" class="hash-link" aria-label="Direct link to GetStats" title="Direct link to GetStats">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L250"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">GetStats</code><code>(</code><code>) → </code><code class="purple_ieR2">{</code><div class="inset_uKQm"><code>ActiveEmissions<!-- -->: </code><code class="blue_P4bS">number</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>CacheEntries<!-- -->: </code><code class="blue_P4bS">number</code></div><code class="purple_ieR2">}</code></div><div>
+<p>Returns a snapshot of the engine's current state for profiling.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ActiveEmissions</code></td>
+      <td>Number of emissions currently in the buffer.</td>
+    </tr>
+    <tr>
+      <td><code>CacheEntries</code></td>
+      <td>Number of occupied occlusion cache slots.</td>
+    </tr>
+  </tbody>
+</table>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> stats <span class="token operator">=</span> Engine<span class="token punctuation">:</span><span class="token function">GetStats</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Active:"</span><span class="token punctuation">,</span> stats<span class="token punctuation">.</span>ActiveEmissions<span class="token punctuation">,</span> <span class="token string">"Cache:"</span><span class="token punctuation">,</span> stats<span class="token punctuation">.</span>CacheEntries<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetActiveEmissions"><code style="text-decoration:none">GetActiveEmissions</code><a href="#GetActiveEmissions" class="hash-link" aria-label="Direct link to GetActiveEmissions" title="Direct link to GetActiveEmissions">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L260"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">GetActiveEmissions</code><code>(</code><code>) → </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a></code><code class="purple_ieR2">}</code></div><div>
+<p>Returns all currently active <a href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a> objects in the buffer.</p>
+<p>
+  Intended for debug visualisation and tooling. Not for use in hot paths —
+  prefer <code>:QueryPosition()</code> for runtime queries.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Destroy"><code style="text-decoration:none">Destroy</code><a href="#Destroy" class="hash-link" aria-label="Direct link to Destroy" title="Direct link to Destroy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/Resonix.lua#L275"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Resonix<!-- -->:</code><code class="green_DgR4">Destroy</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Destroys the engine and releases all resources.</p>
+<p>
+  After this call the instance is inert — the buffer is cleared, the cache
+  is cleared, and the background prune task is stopped. Calling any method
+  after <code>Destroy()</code> will error.
+</p>
+
+  
+    
+    
+      <div class="admonition admonition-caution alert alert--warning">
+        <div class="admonition-heading">
+          <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                <path d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path>
+              </svg></span><span class="admonition-title">CAUTION</span></h5>
+        </div>
+        <div class="admonition-content">
+          <p><code>Destroy()</code> is idempotent — calling it twice is safe.</p>
+        </div>
+      </div>
+    
+  
+
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;new&quot;,
+            &quot;desc&quot;: &quot;Creates a new Resonix engine instance. The engine owns the sound buffer,\nthe occlusion cache, and all registered presets.\n\nAll 14 built-in presets (weapons, footsteps, impacts, explosions) are\nregistered automatically. Additional presets can be registered at any time\nvia `:RegisterPreset()`.\n\n```lua\nlocal Engine = Resonix.new()\n```&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Resonix&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 77,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;RegisterPreset&quot;,
+            &quot;desc&quot;: &quot;Registers a custom emission preset under the given key.\n\nOnce registered, the preset can be used with `:EmitPreset()` and\n`ResonixNet:Fire()`. Both server and client must register custom presets\nin the **same order** when using ResonixNet — the hash is assigned by\nregistration position.\n\n```lua\nEngine:RegisterPreset(\&quot;Helicopter_Approach\&quot;, {\n    Intensity  = 75,\n    Radius     = 500,\n    Duration   = 10.0,\n    Frequency  = Resonix.Frequency.Low,\n    DefaultTag = \&quot;Helicopter_Approach\&quot;,\n})\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;key&quot;,
+                    &quot;desc&quot;: &quot;Unique preset identifier. Used as the argument to `:EmitPreset()`.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;preset&quot;,
+                    &quot;desc&quot;: &quot;Preset configuration table.&quot;,
+                    &quot;lua_type&quot;: &quot;EmissionPreset&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 102,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;EmitPreset&quot;,
+            &quot;desc&quot;: &quot;Emits a sound using a registered preset.\n\nLooks up the preset by key, constructs a [SoundEmission], stores it in\nthe buffer, and returns the emission&#x27;s unique ID. Hold onto the ID to\ncancel the emission early via `:Cancel()`.\n\nThe optional `source` argument is an `Instance` excluded from occlusion\nraycasts — pass the character or part that produced the sound so its own\ngeometry does not block the sound it just emitted.\n\n```lua\n-- Simple emit\nEngine:EmitPreset(\&quot;Gunshot_Rifle\&quot;, origin, character)\n\n-- Long-duration emit that can be cancelled\nlocal id = Engine:EmitPreset(\&quot;VendingMachine\&quot;, vendingMachine.Position, vendingMachine)\n-- ... later:\nEngine:Cancel(id)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;presetKey&quot;,
+                    &quot;desc&quot;: &quot;Key of a registered preset.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;position&quot;,
+                    &quot;desc&quot;: &quot;World-space origin of the emission.&quot;,
+                    &quot;lua_type&quot;: &quot;Vector3&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;source&quot;,
+                    &quot;desc&quot;: &quot;Optional Instance excluded from occlusion raycasts.&quot;,
+                    &quot;lua_type&quot;: &quot;Instance?&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;tagOverride&quot;,
+                    &quot;desc&quot;: &quot;Overrides the preset&#x27;s DefaultTag in query results.&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Unique emission ID.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 133,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Emit&quot;,
+            &quot;desc&quot;: &quot;Emits a sound with a fully specified config table.\n\nUse this when no preset fits — for one-off sounds with unusual parameters.\n`:EmitPreset()` is preferred for any sound that fires more than once.\n\n```lua\nlocal id = Engine:Emit({\n    Position  = origin,\n    Intensity = 55,\n    Radius    = 80,\n    Duration  = 0.1,\n    Frequency = Resonix.Frequency.Mid,\n    Source    = emittingPart,\n    Tag       = \&quot;Custom_Sound\&quot;,\n})\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;config&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{ Position: Vector3, Intensity: number, Radius: number, Duration: number, Frequency: string, Source: Instance?, Tag: string?, PresetKey: string? }&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Unique emission ID.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 156,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Cancel&quot;,
+            &quot;desc&quot;: &quot;Immediately removes an emission from the buffer.\n\nAny `:QueryPosition()` call after this returns will not include the\ncancelled emission. Occlusion cache entries for this emission are also\ncleared.\n\nReturns `true` if the emission was found and removed, `false` if it had\nalready expired or was never registered.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;emissionId&quot;,
+                    &quot;desc&quot;: &quot;The ID returned by `:EmitPreset()` or `:Emit()`.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 171,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;QueryPosition&quot;,
+            &quot;desc&quot;: &quot;Returns every audible emission at `position` with effective intensity at or\nabove `minIntensity`.\n\nResults are sorted descending by `EffectiveIntensity` — index `[1]` is\nalways the loudest stimulus. Each result is a [SoundStimulus] containing\nthe original emission, computed intensity, direction, distance, and\nocclusion factor.\n\nThe optional `excludeList` lets you exclude specific instances from all\nocclusion raycasts in this query (e.g., the querying character&#x27;s own model).\n\n```lua\nlocal stimuli = Engine:QueryPosition(listenerPos, 5)\n\nfor _, stimulus in stimuli do\n    if stimulus.Emission.Tag == \&quot;Gunshot_Rifle\&quot; then\n        -- handle gunshot\n    end\nend\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;position&quot;,
+                    &quot;desc&quot;: &quot;The listener&#x27;s world position.&quot;,
+                    &quot;lua_type&quot;: &quot;Vector3&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;minIntensity&quot;,
+                    &quot;desc&quot;: &quot;Minimum effective intensity threshold (0–100). Stimuli below this are excluded.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;excludeList&quot;,
+                    &quot;desc&quot;: &quot;Optional instances excluded from occlusion raycasts.&quot;,
+                    &quot;lua_type&quot;: &quot;{ Instance }?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Array of SoundStimulus, sorted descending by EffectiveIntensity.&quot;,
+                    &quot;lua_type&quot;: &quot;QueryResult&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 202,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;QueryStrongest&quot;,
+            &quot;desc&quot;: &quot;Returns the single loudest audible stimulus at `position`, or `nil` if\nnothing at or above `minIntensity` is audible.\n\nEquivalent to `Engine:QueryPosition(position, minIntensity)[1]` but\nslightly more efficient as it stops after finding the strongest result.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;position&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Vector3&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;minIntensity&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;excludeList&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{ Instance }?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;SoundStimulus?&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 216,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;IsAudibleAt&quot;,
+            &quot;desc&quot;: &quot;Returns `true` if at least one emission is audible at `position` with\neffective intensity at or above `minIntensity`.\n\nMore efficient than `:QueryPosition()` when you only need a yes/no answer\n— it short-circuits on the first qualifying emission rather than\nevaluating the full set.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;position&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Vector3&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;minIntensity&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;excludeList&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{ Instance }?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 231,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetStats&quot;,
+            &quot;desc&quot;: &quot;Returns a snapshot of the engine&#x27;s current state for profiling.\n\n| Field | Description |\n|-------|-------------|\n| `ActiveEmissions` | Number of emissions currently in the buffer. |\n| `CacheEntries` | Number of occupied occlusion cache slots. |\n\n```lua\nlocal stats = Engine:GetStats()\nprint(\&quot;Active:\&quot;, stats.ActiveEmissions, \&quot;Cache:\&quot;, stats.CacheEntries)\n```&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{ ActiveEmissions: number, CacheEntries: number }&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 250,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetActiveEmissions&quot;,
+            &quot;desc&quot;: &quot;Returns all currently active [SoundEmission] objects in the buffer.\n\nIntended for debug visualisation and tooling. Not for use in hot paths —\nprefer `:QueryPosition()` for runtime queries.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{ SoundEmission }&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 260,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Destroy&quot;,
+            &quot;desc&quot;: &quot;Destroys the engine and releases all resources.\n\nAfter this call the instance is inert — the buffer is cleared, the cache\nis cleared, and the background prune task is stopped. Calling any method\nafter `Destroy()` will error.\n\n:::caution\n`Destroy()` is idempotent — calling it twice is safe.\n:::&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 275,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [
+        {
+            &quot;name&quot;: &quot;Frequency&quot;,
+            &quot;desc&quot;: &quot;Re-export of [SoundTypes.Frequency]. Use `Resonix.Frequency.Low`,\n`Resonix.Frequency.Mid`, or `Resonix.Frequency.High` when registering\ncustom presets so you only need one require.&quot;,
+            &quot;lua_type&quot;: &quot;{ Low: string, Mid: string, High: string }&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 44,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Preset&quot;,
+            &quot;desc&quot;: &quot;Re-export of [SoundTypes.Preset]. A frozen table of all built-in preset\nkey constants. Use these as arguments to `:EmitPreset()` to avoid typos.&quot;,
+            &quot;lua_type&quot;: &quot;{ [string]: string }&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 52,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Accuracy&quot;,
+            &quot;desc&quot;: &quot;Re-export of `SoundPropagator.Accuracy`. Exposed here so callers only\nneed one require when passing an explicit accuracy tier to `:QueryPosition()`.&quot;,
+            &quot;lua_type&quot;: &quot;{ Full: string, Simple: string, Skip: string }&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 60,
+                &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+            }
+        }
+    ],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;Resonix&quot;,
+    &quot;desc&quot;: &quot;Acoustic simulation engine for Roblox.\n\nResonix manages all active sound emissions. Every query runs inverse-square\ndistance falloff followed by Beer-Lambert geometric occlusion through world\ngeometry, and returns a sorted list of [SoundStimulus] objects at the\nlistener&#x27;s position.\n\n```lua\nlocal Resonix = require(ReplicatedStorage.Resonix)\n\nlocal Engine = Resonix.new()\n\n-- Emit a sound when an event occurs\nlocal id = Engine:EmitPreset(\&quot;Gunshot_Rifle\&quot;, character.HumanoidRootPart.Position, character)\n\n-- Query what is audible at a position\nlocal stimuli = Engine:QueryPosition(listenerPos, 5)\n\nfor _, stimulus in stimuli do\n    print(stimulus.Emission.Tag, stimulus.EffectiveIntensity)\nend\n\n-- Cancel a long-duration emission early\nEngine:Cancel(id)\n\nEngine:Destroy()\n```&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 32,
+        &quot;path&quot;: &quot;docs/Resonix.lua&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Accuracy" class="table-of-contents__link toc-highlight">Accuracy</a></li><li><a href="#Frequency" class="table-of-contents__link toc-highlight">Frequency</a></li><li><a href="#Preset" class="table-of-contents__link toc-highlight">Preset</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#Cancel" class="table-of-contents__link toc-highlight">:Cancel</a></li><li><a href="#Destroy" class="table-of-contents__link toc-highlight">:Destroy</a></li><li><a href="#Emit" class="table-of-contents__link toc-highlight">:Emit</a></li><li><a href="#EmitPreset" class="table-of-contents__link toc-highlight">:EmitPreset</a></li><li><a href="#GetActiveEmissions" class="table-of-contents__link toc-highlight">:GetActiveEmissions</a></li><li><a href="#GetStats" class="table-of-contents__link toc-highlight">:GetStats</a></li><li><a href="#IsAudibleAt" class="table-of-contents__link toc-highlight">:IsAudibleAt</a></li><li><a href="#QueryPosition" class="table-of-contents__link toc-highlight">:QueryPosition</a></li><li><a href="#QueryStrongest" class="table-of-contents__link toc-highlight">:QueryStrongest</a></li><li><a href="#RegisterPreset" class="table-of-contents__link toc-highlight">:RegisterPreset</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://discord.gg/XMYMRKcd3g" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord Server<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discord.com/users/897026279243669504" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord (Direct)<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">Social</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.instagram.com/vedevelopment/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Instagram<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://x.com/vedevelopment_" target="_blank" rel="noopener noreferrer" class="footer__link-item">X (Twitter)<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://www.tiktok.com/@vedevelopment" target="_blank" rel="noopener noreferrer" class="footer__link-item">TikTok<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 VeDevelopment</div></div></div></footer></div>
+</body>
+</html>

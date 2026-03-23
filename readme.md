@@ -77,13 +77,13 @@ end
 
 ## Documentation
 
-Full documentation at **[resonix-docs.netlify.app](https://resonix-docs.netlify.app)**
+Full documentation at **[vel136.github.io/Resonix](https://vel136.github.io/Resonix/)**
 
-- [Getting Started](https://resonix-docs.netlify.app/docs/intro)
-- [How Sound Propagates](https://resonix-docs.netlify.app/docs/guides/physics-features)
-- [Networking and Trust](https://resonix-docs.netlify.app/docs/guides/networking)
-- [Performance](https://resonix-docs.netlify.app/docs/guides/performance)
-- [FAQ](https://resonix-docs.netlify.app/docs/faq)
+- [Getting Started](https://vel136.github.io/Resonix/docs/intro)
+- [How Sound Propagates](https://vel136.github.io/Resonix/docs/guides/physics-features)
+- [Networking and Trust](https://vel136.github.io/Resonix/docs/guides/networking)
+- [Performance](https://vel136.github.io/Resonix/docs/guides/performance)
+- [FAQ](https://vel136.github.io/Resonix/docs/faq)
 
 ## Community
 
