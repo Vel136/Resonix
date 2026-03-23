@@ -48,24 +48,32 @@ local SoundTypes = {}
 	Engine:EmitPreset(Resonix.Preset.Gunshot_Rifle, origin, character)
 	```
 
-	**Built-in presets:**
+	The 14 keys marked ✓ are registered automatically by [Resonix.new]. The
+	remaining keys exist as constants for use with [Resonix:RegisterPreset] —
+	register them with your own preset config before calling [Resonix:EmitPreset].
 
-	| Key | Intensity | Radius | Frequency |
-	|-----|:---------:|:------:|:---------:|
-	| `Gunshot_Pistol` | 65 | 100 | High |
-	| `Gunshot_Rifle` | 80 | 200 | High |
-	| `Gunshot_Sniper` | 95 | 350 | High |
-	| `Gunshot_Shotgun` | 78 | 150 | Mid |
-	| `Footstep_Walk` | 12 | 25 | Mid |
-	| `Footstep_Sprint` | 22 | 40 | Mid |
-	| `Footstep_Crouch` | 5 | 12 | Mid |
-	| `Impact_Bullet_Hard` | 30 | 50 | High |
-	| `Impact_Bullet_Soft` | 20 | 35 | Mid |
-	| `VendingMachine` | 42 | 65 | Mid |
-	| `PowerNode` | 38 | 55 | Mid |
-	| `PowerFlip` | 70 | 120 | Low |
-	| `Explosion_Grenade` | 88 | 280 | Low |
-	| `Explosion_Large` | 98 | 400 | Low |
+	| Key | Auto-registered | Intensity | Radius | Frequency |
+	|-----|:---------------:|:---------:|:------:|:---------:|
+	| `Gunshot_Pistol` | ✓ | 65 | 100 | High |
+	| `Gunshot_Rifle` | ✓ | 80 | 200 | High |
+	| `Gunshot_Sniper` | ✓ | 95 | 350 | High |
+	| `Gunshot_Shotgun` | ✓ | 78 | 150 | Mid |
+	| `Footstep_Walk` | ✓ | 12 | 25 | Mid |
+	| `Footstep_Sprint` | ✓ | 22 | 40 | Mid |
+	| `Footstep_Crouch` | ✓ | 5 | 12 | Mid |
+	| `Impact_Bullet_Hard` | ✓ | 30 | 50 | High |
+	| `Impact_Bullet_Soft` | ✓ | 20 | 35 | Mid |
+	| `Impact_Bullet_Flesh` | — | — | — | — |
+	| `VendingMachine` | ✓ | 42 | 65 | Mid |
+	| `PowerNode` | ✓ | 38 | 55 | Mid |
+	| `PowerFlip` | ✓ | 70 | 120 | Low |
+	| `Explosion_Grenade` | ✓ | 88 | 280 | Low |
+	| `Explosion_Large` | ✓ | 98 | 400 | Low |
+	| `Ronin_Alert` | — | — | — | — |
+	| `Ronin_Footstep` | — | — | — | — |
+	| `Ronin_Attack` | — | — | — | — |
+	| `Helicopter_Approach` | — | — | — | — |
+	| `Helicopter_Idle` | — | — | — | — |
 ]=]
 
 -- ─── Types ───────────────────────────────────────────────────────────────────

@@ -64,9 +64,11 @@ local Resonix = {}
 	Creates a new Resonix engine instance. The engine owns the sound buffer,
 	the occlusion cache, and all registered presets.
 
-	All 14 built-in presets (weapons, footsteps, impacts, explosions) are
-	registered automatically. Additional presets can be registered at any time
-	via `:RegisterPreset()`.
+	14 built-in presets (weapons, footsteps, impacts, environment, explosions)
+	are registered automatically. [SoundTypes.Preset] also contains additional
+	keys (`Ronin_*`, `Helicopter_*`, `Impact_Bullet_Flesh`) as convenient
+	constants — register these with your own configs via `:RegisterPreset()`
+	before calling `:EmitPreset()` with them.
 
 	```lua
 	local Engine = Resonix.new()

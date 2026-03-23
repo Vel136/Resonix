@@ -22,7 +22,7 @@ Where most games ask "is the player within X studs of this sound?" and call it d
 - **Occlusion cache** — 512-entry LRU with 0.15s TTL and 1.5-stud position quantization; eliminates redundant raycasts for stationary listeners
 - **Per-query raycast budget** — configurable cap (default 16 checks/call) bounds worst-case frame cost regardless of active emission count
 - **Sound buffer** — emissions persist for `Duration + 0.6s` so discrete polling ticks never miss instantaneous events like gunshots
-- **15 built-in presets** — weapons, footsteps, impacts, environment sounds, and explosions
+- **14 auto-registered presets** — weapons, footsteps, impacts, environment, and explosions; plus 6 additional preset key constants for custom registration
 - **ResonixNet** — full network middleware: binary serialization, rate limiting, origin validation, clock drift correction, and late-join state sync over a single `RemoteEvent`
 - **MIT licensed**
 
