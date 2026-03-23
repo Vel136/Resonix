@@ -22,8 +22,8 @@ domain logic.
 The `Tag` field on [SoundEmission] is the one exception: it carries
 external metadata that the sound system stores but never reads. Callers
 use it to classify stimuli after querying."><link data-rh="true" rel="canonical" href="https://vel136.github.io/Resonix/api/SoundTypes"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Resonix/api/SoundTypes" hreflang="en"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Resonix/api/SoundTypes" hreflang="x-default"><link rel="stylesheet" href="/Resonix/assets/css/styles.5cbed574.css">
-<script src="/Resonix/assets/js/runtime~main.8db52554.js" defer="defer"></script>
-<script src="/Resonix/assets/js/main.2bdf5a4f.js" defer="defer"></script>
+<script src="/Resonix/assets/js/runtime~main.d2de2f21.js" defer="defer"></script>
+<script src="/Resonix/assets/js/main.41767c7b.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Resonix/"><b class="navbar__title text--truncate">Resonix</b></a><a class="navbar__item navbar__link" href="/Resonix/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Resonix/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/Vel136/Resonix" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Resonix/api/Resonix">Core</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Resonix/api/ResonixNet">Network</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/Resonix/api/SoundTypes">Types</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/Resonix/api/SoundTypes">​Sound​Types</a></li></ul></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Sound</span><span style="display:inline-block">Types</span></h1><div class="luaClassTags_EipM"></div><div>
@@ -39,7 +39,7 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
   external metadata that the sound system stores but never reads. Callers
   use it to classify stimuli after querying.
 </p>
-</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="types">Types<a href="#types" class="hash-link" aria-label="Direct link to Types" title="Direct link to Types">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="SoundEmission"><code style="text-decoration:none">SoundEmission</code><a href="#SoundEmission" class="hash-link" aria-label="Direct link to SoundEmission" title="Direct link to SoundEmission">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L95"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">interface</code> <code>SoundEmission<!-- --> <!-- -->{</code><div class="inset_uKQm"><div><code>Id<!-- -->: </code><code class="blue_P4bS">string</code><span class="inlineDescription_G7Er">-- <span>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="types">Types<a href="#types" class="hash-link" aria-label="Direct link to Types" title="Direct link to Types">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="SoundEmission"><code style="text-decoration:none">SoundEmission</code><a href="#SoundEmission" class="hash-link" aria-label="Direct link to SoundEmission" title="Direct link to SoundEmission">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L103"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">interface</code> <code>SoundEmission<!-- --> <!-- -->{</code><div class="inset_uKQm"><div><code>Id<!-- -->: </code><code class="blue_P4bS">string</code><span class="inlineDescription_G7Er">-- <span>
 <p>Unique ID assigned by <a href="/Resonix/api/Resonix#Emit">Resonix:Emit</a>.</p>
 </span></span></div><div><code>PresetKey<!-- -->: </code><code class="blue_P4bS">string?</code><span class="inlineDescription_G7Er">-- <span>
 <p>Which preset was used, if any.</p>
@@ -70,7 +70,7 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
   The sound system stores <code>Tag</code> but never reads it — it is purely for
   external consumers to classify stimuli after querying.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="SoundStimulus"><code style="text-decoration:none">SoundStimulus</code><a href="#SoundStimulus" class="hash-link" aria-label="Direct link to SoundStimulus" title="Direct link to SoundStimulus">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L109"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">interface</code> <code>SoundStimulus<!-- --> <!-- -->{</code><div class="inset_uKQm"><div><code>Emission<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a></code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="SoundStimulus"><code style="text-decoration:none">SoundStimulus</code><a href="#SoundStimulus" class="hash-link" aria-label="Direct link to SoundStimulus" title="Direct link to SoundStimulus">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L117"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">interface</code> <code>SoundStimulus<!-- --> <!-- -->{</code><div class="inset_uKQm"><div><code>Emission<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundEmission">SoundEmission</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>Original emission data.</p>
 </span></span></div><div><code>EffectiveIntensity<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
 <p>Computed intensity at listener position, 0–100.</p>
@@ -85,7 +85,7 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
   The result of a propagation query at a listener's position. Returned
   by <a href="/Resonix/api/Resonix#QueryPosition">Resonix:QueryPosition</a> and <a href="/Resonix/api/Resonix#QueryStrongest">Resonix:QueryStrongest</a>.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="EmissionPreset"><code style="text-decoration:none">EmissionPreset</code><a href="#EmissionPreset" class="hash-link" aria-label="Direct link to EmissionPreset" title="Direct link to EmissionPreset">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L123"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">interface</code> <code>EmissionPreset<!-- --> <!-- -->{</code><div class="inset_uKQm"><div><code>Intensity<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="EmissionPreset"><code style="text-decoration:none">EmissionPreset</code><a href="#EmissionPreset" class="hash-link" aria-label="Direct link to EmissionPreset" title="Direct link to EmissionPreset">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L131"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">interface</code> <code>EmissionPreset<!-- --> <!-- -->{</code><div class="inset_uKQm"><div><code>Intensity<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
 <p>Source intensity at origin, 0–100 scale.</p>
 </span></span></div><div><code>Radius<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
 <p>Maximum propagation distance in studs.</p>
@@ -100,7 +100,7 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
   A template for creating emissions. Registered via <a href="/Resonix/api/Resonix#RegisterPreset">Resonix:RegisterPreset</a>
   and used by <a href="/Resonix/api/Resonix#EmitPreset">Resonix:EmitPreset</a>.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="QueryResult"><code style="text-decoration:none">QueryResult</code><a href="#QueryResult" class="hash-link" aria-label="Direct link to QueryResult" title="Direct link to QueryResult">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L131"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">type</code> <code>QueryResult<!-- --> = </code> <code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundStimulus">SoundStimulus</a></code><code class="purple_ieR2">}</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="QueryResult"><code style="text-decoration:none">QueryResult</code><a href="#QueryResult" class="hash-link" aria-label="Direct link to QueryResult" title="Direct link to QueryResult">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L139"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">type</code> <code>QueryResult<!-- --> = </code> <code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Resonix/api/SoundTypes#SoundStimulus">SoundStimulus</a></code><code class="purple_ieR2">}</code></div><div>
 <p>
   Array of <a href="/Resonix/api/SoundTypes#SoundStimulus">SoundStimulus</a> returned by <a href="/Resonix/api/Resonix#QueryPosition">Resonix:QueryPosition</a>. Sorted
   descending by <code>EffectiveIntensity</code> — index <code>[1]</code> is always the loudest.
@@ -138,18 +138,23 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
   reduces a gunshot crack to near-silence barely dents the pressure wave
   of an explosion.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Preset"><code style="text-decoration:none">Preset</code><a href="#Preset" class="hash-link" aria-label="Direct link to Preset" title="Direct link to Preset">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L70"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundTypes<!-- -->.<!-- -->Preset<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">}</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Preset"><code style="text-decoration:none">Preset</code><a href="#Preset" class="hash-link" aria-label="Direct link to Preset" title="Direct link to Preset">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Resonix/blob/master/docs/SoundTypes.lua#L78"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SoundTypes<!-- -->.<!-- -->Preset<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">}</code></div><div>
 <p>
   Frozen table of all built-in preset key constants. Use these as arguments
   to <a href="/Resonix/api/Resonix#EmitPreset">Resonix:EmitPreset</a> to avoid typos.
 </p>
 <pre class="language-lua"><code class="language-lua">Engine<span class="token punctuation">:</span><span class="token function">EmitPreset</span><span class="token punctuation">(</span>Resonix<span class="token punctuation">.</span>Preset<span class="token punctuation">.</span>Gunshot_Rifle<span class="token punctuation">,</span> origin<span class="token punctuation">,</span> character<span class="token punctuation">)</span>
 </code></pre>
-<p><strong>Built-in presets:</strong></p>
+<p>
+  The 14 keys marked ✓ are registered automatically by <a href="/Resonix/api/Resonix#new">Resonix.new</a>. The
+  remaining keys exist as constants for use with <a href="/Resonix/api/Resonix#RegisterPreset">Resonix:RegisterPreset</a> —
+  register them with your own preset config before calling <a href="/Resonix/api/Resonix#EmitPreset">Resonix:EmitPreset</a>.
+</p>
 <table>
   <thead>
     <tr>
       <th>Key</th>
+      <th align="center">Auto-registered</th>
       <th align="center">Intensity</th>
       <th align="center">Radius</th>
       <th align="center">Frequency</th>
@@ -158,87 +163,143 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
   <tbody>
     <tr>
       <td><code>Gunshot_Pistol</code></td>
+      <td align="center">✓</td>
       <td align="center">65</td>
       <td align="center">100</td>
       <td align="center">High</td>
     </tr>
     <tr>
       <td><code>Gunshot_Rifle</code></td>
+      <td align="center">✓</td>
       <td align="center">80</td>
       <td align="center">200</td>
       <td align="center">High</td>
     </tr>
     <tr>
       <td><code>Gunshot_Sniper</code></td>
+      <td align="center">✓</td>
       <td align="center">95</td>
       <td align="center">350</td>
       <td align="center">High</td>
     </tr>
     <tr>
       <td><code>Gunshot_Shotgun</code></td>
+      <td align="center">✓</td>
       <td align="center">78</td>
       <td align="center">150</td>
       <td align="center">Mid</td>
     </tr>
     <tr>
       <td><code>Footstep_Walk</code></td>
+      <td align="center">✓</td>
       <td align="center">12</td>
       <td align="center">25</td>
       <td align="center">Mid</td>
     </tr>
     <tr>
       <td><code>Footstep_Sprint</code></td>
+      <td align="center">✓</td>
       <td align="center">22</td>
       <td align="center">40</td>
       <td align="center">Mid</td>
     </tr>
     <tr>
       <td><code>Footstep_Crouch</code></td>
+      <td align="center">✓</td>
       <td align="center">5</td>
       <td align="center">12</td>
       <td align="center">Mid</td>
     </tr>
     <tr>
       <td><code>Impact_Bullet_Hard</code></td>
+      <td align="center">✓</td>
       <td align="center">30</td>
       <td align="center">50</td>
       <td align="center">High</td>
     </tr>
     <tr>
       <td><code>Impact_Bullet_Soft</code></td>
+      <td align="center">✓</td>
       <td align="center">20</td>
       <td align="center">35</td>
       <td align="center">Mid</td>
     </tr>
     <tr>
+      <td><code>Impact_Bullet_Flesh</code></td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+    </tr>
+    <tr>
       <td><code>VendingMachine</code></td>
+      <td align="center">✓</td>
       <td align="center">42</td>
       <td align="center">65</td>
       <td align="center">Mid</td>
     </tr>
     <tr>
       <td><code>PowerNode</code></td>
+      <td align="center">✓</td>
       <td align="center">38</td>
       <td align="center">55</td>
       <td align="center">Mid</td>
     </tr>
     <tr>
       <td><code>PowerFlip</code></td>
+      <td align="center">✓</td>
       <td align="center">70</td>
       <td align="center">120</td>
       <td align="center">Low</td>
     </tr>
     <tr>
       <td><code>Explosion_Grenade</code></td>
+      <td align="center">✓</td>
       <td align="center">88</td>
       <td align="center">280</td>
       <td align="center">Low</td>
     </tr>
     <tr>
       <td><code>Explosion_Large</code></td>
+      <td align="center">✓</td>
       <td align="center">98</td>
       <td align="center">400</td>
       <td align="center">Low</td>
+    </tr>
+    <tr>
+      <td><code>Ronin_Alert</code></td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+    </tr>
+    <tr>
+      <td><code>Ronin_Footstep</code></td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+    </tr>
+    <tr>
+      <td><code>Ronin_Attack</code></td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+    </tr>
+    <tr>
+      <td><code>Helicopter_Approach</code></td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+    </tr>
+    <tr>
+      <td><code>Helicopter_Idle</code></td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
+      <td align="center">—</td>
     </tr>
   </tbody>
 </table>
@@ -256,10 +317,10 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
         },
         {
             &quot;name&quot;: &quot;Preset&quot;,
-            &quot;desc&quot;: &quot;Frozen table of all built-in preset key constants. Use these as arguments\nto [Resonix:EmitPreset] to avoid typos.\n\n```lua\nEngine:EmitPreset(Resonix.Preset.Gunshot_Rifle, origin, character)\n```\n\n**Built-in presets:**\n\n| Key | Intensity | Radius | Frequency |\n|-----|:---------:|:------:|:---------:|\n| `Gunshot_Pistol` | 65 | 100 | High |\n| `Gunshot_Rifle` | 80 | 200 | High |\n| `Gunshot_Sniper` | 95 | 350 | High |\n| `Gunshot_Shotgun` | 78 | 150 | Mid |\n| `Footstep_Walk` | 12 | 25 | Mid |\n| `Footstep_Sprint` | 22 | 40 | Mid |\n| `Footstep_Crouch` | 5 | 12 | Mid |\n| `Impact_Bullet_Hard` | 30 | 50 | High |\n| `Impact_Bullet_Soft` | 20 | 35 | Mid |\n| `VendingMachine` | 42 | 65 | Mid |\n| `PowerNode` | 38 | 55 | Mid |\n| `PowerFlip` | 70 | 120 | Low |\n| `Explosion_Grenade` | 88 | 280 | Low |\n| `Explosion_Large` | 98 | 400 | Low |&quot;,
+            &quot;desc&quot;: &quot;Frozen table of all built-in preset key constants. Use these as arguments\nto [Resonix:EmitPreset] to avoid typos.\n\n```lua\nEngine:EmitPreset(Resonix.Preset.Gunshot_Rifle, origin, character)\n```\n\nThe 14 keys marked ✓ are registered automatically by [Resonix.new]. The\nremaining keys exist as constants for use with [Resonix:RegisterPreset] —\nregister them with your own preset config before calling [Resonix:EmitPreset].\n\n| Key | Auto-registered | Intensity | Radius | Frequency |\n|-----|:---------------:|:---------:|:------:|:---------:|\n| `Gunshot_Pistol` | ✓ | 65 | 100 | High |\n| `Gunshot_Rifle` | ✓ | 80 | 200 | High |\n| `Gunshot_Sniper` | ✓ | 95 | 350 | High |\n| `Gunshot_Shotgun` | ✓ | 78 | 150 | Mid |\n| `Footstep_Walk` | ✓ | 12 | 25 | Mid |\n| `Footstep_Sprint` | ✓ | 22 | 40 | Mid |\n| `Footstep_Crouch` | ✓ | 5 | 12 | Mid |\n| `Impact_Bullet_Hard` | ✓ | 30 | 50 | High |\n| `Impact_Bullet_Soft` | ✓ | 20 | 35 | Mid |\n| `Impact_Bullet_Flesh` | — | — | — | — |\n| `VendingMachine` | ✓ | 42 | 65 | Mid |\n| `PowerNode` | ✓ | 38 | 55 | Mid |\n| `PowerFlip` | ✓ | 70 | 120 | Low |\n| `Explosion_Grenade` | ✓ | 88 | 280 | Low |\n| `Explosion_Large` | ✓ | 98 | 400 | Low |\n| `Ronin_Alert` | — | — | — | — |\n| `Ronin_Footstep` | — | — | — | — |\n| `Ronin_Attack` | — | — | — | — |\n| `Helicopter_Approach` | — | — | — | — |\n| `Helicopter_Idle` | — | — | — | — |&quot;,
             &quot;lua_type&quot;: &quot;{ [string]: string }&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 70,
+                &quot;line&quot;: 78,
                 &quot;path&quot;: &quot;docs/SoundTypes.lua&quot;
             }
         }
@@ -326,7 +387,7 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
                 }
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 95,
+                &quot;line&quot;: 103,
                 &quot;path&quot;: &quot;docs/SoundTypes.lua&quot;
             }
         },
@@ -361,7 +422,7 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
                 }
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 109,
+                &quot;line&quot;: 117,
                 &quot;path&quot;: &quot;docs/SoundTypes.lua&quot;
             }
         },
@@ -396,7 +457,7 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
                 }
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 123,
+                &quot;line&quot;: 131,
                 &quot;path&quot;: &quot;docs/SoundTypes.lua&quot;
             }
         },
@@ -405,7 +466,7 @@ use it to classify stimuli after querying."><link data-rh="true" rel="canonical"
             &quot;desc&quot;: &quot;Array of [SoundStimulus] returned by [Resonix:QueryPosition]. Sorted\ndescending by `EffectiveIntensity` — index `[1]` is always the loudest.&quot;,
             &quot;lua_type&quot;: &quot;{ SoundStimulus }&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 131,
+                &quot;line&quot;: 139,
                 &quot;path&quot;: &quot;docs/SoundTypes.lua&quot;
             }
         }
